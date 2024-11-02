@@ -29,6 +29,7 @@ public class Calculator extends JPanel implements ActionListener{
 	
 	// Create TextBox
 	private JTextField Output = new JTextField();
+	
 	private JPanel OutPanel = new JPanel();
 	// Use Later?
 	//public ArrayList<Integer> Numbers;
@@ -39,28 +40,30 @@ public class Calculator extends JPanel implements ActionListener{
 	private double result;
 	
 	Calculator(){
-		this.setLayout(new BorderLayout(100,100));
-		this.setBackground(Color.gray);
+		this.setLayout(new BorderLayout(10,10));
 		
 		// Add output text field to the Pad panel
 		Output.setEditable(true);
+		Output.setPreferredSize(new Dimension(100,25));
 		OutPanel.add(Output);
 		this.add(OutPanel, BorderLayout.NORTH);
 		
 		// Create Number Buttons
 		NumButtons = new JButton[10];
 		NumPanel = new JPanel();
-		NumPanel.setLayout(new FlowLayout(FlowLayout.LEADING,10,10));
+		//NumPanel.setLayout(new FlowLayout(FlowLayout.LEADING));
+		// Weirdly enough, the numbers are not appearing :/
 		for(int i = 0; i < NumButtons.length; i++) {
 			String num = Integer.toString(i);
 			NumButtons[i] = new JButton();
+			NumButtons[i].setPreferredSize(new Dimension(50,50));
 			NumButtons[i].setText(num);
 			NumPanel.add(NumButtons[i]);
 			NumButtons[i].addActionListener(this);
 		}
 		
-		NumPanel.setPreferredSize(new Dimension(250,250));
-		this.add(NumPanel, BorderLayout.CENTER);
+		//NumPanel.setPreferredSize(new Dimension(250,250));
+		this.add(NumPanel, BorderLayout.WEST);
 		
 		// Create clear button
 		clearButton = new JButton("clear");
