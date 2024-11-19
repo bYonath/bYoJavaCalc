@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 //import java.util.ArrayList;
@@ -26,6 +27,8 @@ public class Calculator extends JPanel implements ActionListener{
 	
 	// Create misc buttons (reset/clear button)
 	private JButton clearButton;
+	// Decimal Button
+	private JButton decimalButton;
 	
 	// Create TextBox
 	private JTextField Output = new JTextField();
@@ -34,23 +37,24 @@ public class Calculator extends JPanel implements ActionListener{
 	//public ArrayList<Integer> Numbers;
 	private String operation;
 	
-	private double num1;
+	private double num1; 
 	private double num2;
 	private double result;
 	
 	Calculator(){
-		this.setLayout(new BorderLayout(100,100));
-		this.setBackground(Color.gray);
+		this.setLayout(new BorderLayout(10,10));
+		//this.setBackground(Color.gray);
 		
 		// Add output text field to the Pad panel
 		Output.setEditable(true);
+		Output.setPreferredSize(new Dimension(300,50));
+		//OutPanel.setPreferredSize(new Dimension(100,50));
 		OutPanel.add(Output);
-		this.add(OutPanel, BorderLayout.NORTH);
 		
 		// Create Number Buttons
 		NumButtons = new JButton[10];
 		NumPanel = new JPanel();
-		NumPanel.setLayout(new FlowLayout(FlowLayout.LEADING,10,10));
+		NumPanel.setLayout(new GridLayout(3,3));
 		for(int i = 0; i < NumButtons.length; i++) {
 			String num = Integer.toString(i);
 			NumButtons[i] = new JButton();
@@ -59,8 +63,11 @@ public class Calculator extends JPanel implements ActionListener{
 			NumButtons[i].addActionListener(this);
 		}
 		
-		NumPanel.setPreferredSize(new Dimension(250,250));
-		this.add(NumPanel, BorderLayout.CENTER);
+		decimalButton = new JButton(".");
+		decimalButton.addActionListener(this);
+		NumPanel.add(decimalButton);
+		//NumPanel.setPreferredSize(new Dimension(250,250));
+		//this.add(NumPanel, BorderLayout.EAST);
 		
 		// Create clear button
 		clearButton = new JButton("clear");
@@ -75,7 +82,7 @@ public class Calculator extends JPanel implements ActionListener{
 		// Create Operations Buttons (List)
 		Operations = new JButton[5];
 		OpPanel = new JPanel();
-		this.add(OpPanel, BorderLayout.EAST);
+		OpPanel.setLayout(new GridLayout(5,1));
 		// Addition Button
 		Operations[0] = new JButton();
 		Operations[0].setText("+");
@@ -106,7 +113,10 @@ public class Calculator extends JPanel implements ActionListener{
 		Operations[4].addActionListener(this);
 		OpPanel.add(Operations[4]);
 		
-		this.add(OpPanel);
+		this.add(OpPanel, BorderLayout.EAST);
+		this.add(NumPanel, BorderLayout.CENTER);
+		this.add(OutPanel, BorderLayout.NORTH);
+		this.add(clearButton, BorderLayout.SOUTH);
 	}
 	
 	@Override
@@ -116,6 +126,9 @@ public class Calculator extends JPanel implements ActionListener{
 			if(e.getSource() == NumButtons[i]) {
 				Output.setText(Output.getText().concat(String.valueOf(i)));
 			}
+		}
+		if(e.getSource() == decimalButton) {
+			Output.setText(Output.getText() + ".");
 		}
 		// Check for operation type
 		for(int i = 0; i<Operations.length; i++) {
@@ -155,6 +168,11 @@ public class Calculator extends JPanel implements ActionListener{
 					Output.setText("");
 				}
 			}
+		}
+		
+		// Misc Buttons
+		if(e.getSource() == clearButton) {
+			Output.setText("");
 		}
 	}
 }
